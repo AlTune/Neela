@@ -1,5 +1,6 @@
-
-<img align="center" src ="https://s31.postimg.org/4s7r3ng0r/Neela_logo01_d.png" height="200" />
+<p align="center">
+<img  src ="https://s31.postimg.org/4s7r3ng0r/Neela_logo01_d.png" height="200" />
+</p>
 <br />
 
 ![Neela LAN](https://s31.postimg.org/40czeg3zv/home.png)
