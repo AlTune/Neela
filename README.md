@@ -57,6 +57,9 @@ req.send(null);
 ![Neela](https://s31.postimg.org/wdfic47wr/Capture_d_e_cran_2016_07_07_a_15_32_28.png)
 
 ##### Replace all .exe
+- Select replace_exe.neela routine
+- Update /exploit/routine/exe/hacked.exe
+
 ![Neela replace](https://s31.postimg.org/worb3hngr/Capture_d_e_cran_2016_07_07_a_16_46_56.png)
 
 ##### Neela Logs
