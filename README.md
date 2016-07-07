@@ -1,3 +1,7 @@
+
+<div style="text-align:center"><img src ="https://s31.postimg.org/4s7r3ng0r/Neela_logo01_d.png" height="200" /></div>
+<br />
+
 ![Neela LAN](https://s31.postimg.org/40czeg3zv/home.png)
 
 ###### Resume:
