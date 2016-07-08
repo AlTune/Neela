@@ -1,5 +1,5 @@
 <p align="center">
-<img  src ="https://s31.postimg.org/4s7r3ng0r/Neela_logo01_d.png" height="200" />
+<img  src ="https://s31.postimg.org/kuz84gwjv/Neela_logo03_d.png" height="300" />
 </p>
 <br />
 
