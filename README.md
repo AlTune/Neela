@@ -43,7 +43,21 @@ node neela.js
 ![bettercap with Neela](https://s32.postimg.org/duji0l405/Capture_d_e_cran_2016_07_07_a_16_25_50.png)
 
 ##### Make Routine & Hack !
-* /exploit/routine
+* Create folder on /exploit/routine
+* Create info file
+
+```javascript
+{
+  "name": "Name routine",
+  "step":[
+      {"name":"step1.neela"},
+      {"name":"step2.neela"}
+      ]
+  ,
+  "author": "Author"
+}
+
+```
 
 ```javascript
 if(document.getElementsByTagName('a') !== undefined){
