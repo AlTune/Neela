@@ -73,10 +73,24 @@
       </tbody>
     </table>
     </div>
-    <div class="ui modal">
+    <div class="ui modal un">
       <div class="header">Thief success</div>
       <div class="content">
         <p id="logcontent"></p>
+      </div>
+    </div>
+    <div class="ui modal deux">
+      <div class="header">Select routine</div>
+      <div class="content">
+        <table class="ui compact black  table">
+          <thead>
+            <tr>
+              <th>Routine</th>
+            </tr>
+          </thead>
+          <tbody id="routineNameSelect">
+          </tbody>
+        </table>
       </div>
     </div>
   </body>
@@ -99,6 +113,19 @@
     //array_zombie_status[log.zombie] = ['name':zombie.name,'status':0];;
   });
 
+  socket.emit('get_routine');
+  socket.on('choose_routine', function(list){
+    for(var x = 0;x < list.length;x++){
+      $('#routineNameSelect').append('<tr data="'+list[x]+'" class="RoutineSelect"><td>'+list[x]+'</td></tr>');
+    }
+    $('.RoutineSelect').click(function(){
+      var value = $(this).attr('data');
+      socket.emit('select_routine',{'name':value});
+    });
+    $('.ui.modal.deux')
+      .modal('show')
+    ;
+  });
   socket.emit('current_routine');
   socket.on('return_routine', function(information){
     console.log(information);
@@ -117,7 +144,7 @@
 
   socket.on('new_gate', function(log){
     $('#logcontent').html(Base64.decode(log));
-    $('.ui.modal')
+    $('.ui.modal.un')
       .modal('show')
     ;
   });
