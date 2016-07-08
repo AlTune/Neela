@@ -154,11 +154,43 @@
   if($('.start_server').click(function(){
     var value = $('.start_server').val();
     if(value == '0'){
-      $('.status_img').attr('src','https://s31.postimg.org/yjkqmn5fv/Neela_logo03_a.png');
+      $('.status_img').animate({
+        marginTop: '5px'
+      },100,function(){
+        $('.status_img').animate({
+          marginTop: '0px'
+        }, 100, function(){
+          $('.status_img').animate({
+            marginLeft: '5px'
+          }, 100, function(){
+            $('.status_img').animate({
+              marginLeft: '0px'
+            }, 100, function(){
+              $('.status_img').attr('src','https://s31.postimg.org/yjkqmn5fv/Neela_logo03_a.png');
+            })
+          })
+        })
+      })
       $('.start_server').val('1')
     }
     else{
-      $('.status_img').attr('src','https://s32.postimg.org/c94n458dh/Neela_logo02_a.png');
+      $('.status_img').animate({
+        marginTop: '5px'
+      },100,function(){
+        $('.status_img').animate({
+          marginTop: '0px'
+        }, 100, function(){
+          $('.status_img').animate({
+            marginLeft: '5px'
+          }, 100, function(){
+            $('.status_img').animate({
+              marginLeft: '0px'
+            }, 100, function(){
+              $('.status_img').attr('src','https://s32.postimg.org/c94n458dh/Neela_logo02_a.png');  
+            })
+          })
+        })
+      })
 
       $('.start_server').val('0');
     }
