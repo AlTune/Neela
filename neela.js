@@ -258,7 +258,7 @@ function disconect_z(zombie){
         }
       }
     }
-  },20000);
+  },60000);
 }
 io.sockets.on('connection', function (socket) {
   socket.on('select_routine', function(routine){

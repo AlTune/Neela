@@ -34,6 +34,9 @@
                 </div></div>
       </div>
       <hr / />
+      <center>
+        <img class="status_img" src="https://s31.postimg.org/yjkqmn5fv/Neela_logo03_a.png" height="100px" />
+      </center>
       <p><small>Instant progress</small></p>
       <table class="ui compact inverted table">
         <thead>
@@ -151,9 +154,12 @@
   if($('.start_server').click(function(){
     var value = $('.start_server').val();
     if(value == '0'){
+      $('.status_img').attr('src','https://s31.postimg.org/yjkqmn5fv/Neela_logo03_a.png');
       $('.start_server').val('1')
     }
     else{
+      $('.status_img').attr('src','https://s32.postimg.org/c94n458dh/Neela_logo02_a.png');
+
       $('.start_server').val('0');
     }
     socket.emit('start_loader', value);
