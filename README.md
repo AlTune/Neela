@@ -61,7 +61,8 @@ Create info file
 ```
 
 * Create step file exemple:
-  - step1.neela
+
+step1.neela
 
   ```javascript
     alert('My first routine');
