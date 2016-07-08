@@ -49,9 +49,9 @@ node neela.js
 ##### Make Routine & Hack !
 * Create folder on /exploit/routine
 
-Create info file
+  Create info file
 
-```javascript
+  ```javascript
 {
   "name": "Name routine",
   "step":[
@@ -62,11 +62,11 @@ Create info file
   "author": "Author"
 }
 
-```
+  ```
 
 * Create step file exemple:
 
-step1.neela
+  step1.neela
 
   ```javascript
     alert('My first routine');
