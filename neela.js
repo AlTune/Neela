@@ -264,12 +264,11 @@ io.sockets.on('connection', function (socket) {
   socket.on('select_routine', function(routine){
     var value = routine.name;
     action = {'action':[{'number':1,'done':0,'routine':value}]};
-    console.log('|_['+colors.green('+')+'] Routine selected : '+action.action[0].name);
-    socket.emit('return_routine', {'name':action.action});
+    console.log('|_['+colors.green('+')+'] Routine selected : '+value);
+    socket.emit('return_routine', {'name':value});
   })
   socket.on('get_routine', function(){
     if(action.action[0] == undefined){
-      console.log(routine_list);
       socket.emit('choose_routine',routine_list);
     }
   });

@@ -128,8 +128,7 @@
   });
   socket.emit('current_routine');
   socket.on('return_routine', function(information){
-    console.log(information);
-    $('#routineName').append('<tr class="'+information.name[0].name+'"><td>'+information.name[0].name+'</td></tr>');
+    $('#routineName').append('<tr class="'+information.name+'"><td>'+information.name+'</td></tr>');
   })
 
   socket.on('online_notif', function(zombie){
