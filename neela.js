@@ -314,7 +314,7 @@ app.get('/exploit/routine/sound/sound.wav', function(req, res){
 });
 
 app.get('/payload', function(req, res){
-  res.sendFile(__dirname + '/exploit/routine/exe/hacked.exe');
+  res.sendFile(__dirname + '/exploit/exe/hacked.exe');
 })
 
 app.get('/platform', function(req, res){
